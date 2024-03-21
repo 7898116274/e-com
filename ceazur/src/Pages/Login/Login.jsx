@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../../Redux/slice/AuthSlice';
 import { Container, Form, Button } from 'react-bootstrap';
 
 import PhoneInput from 'react-phone-input-2';
@@ -20,18 +18,12 @@ function Login() {
       const [phoneError, setPhoneError] = useState(''); // State for phone number error
       const [otpError, setOtpError] = useState(''); // State for OTP error
       const navigate = useNavigate();
-      const dispatch = useDispatch();
+
 
       const loginuser = async () => {
             try {
                   const response = await axios.post('http://localhost:5000/api/user/login', { userContact }, { withCredentials: true, });
                   console.log(response.data)
-
-                  if (response.data.token) {
-                        dispatch(loginSuccess({ token: response.data.token }));
-
-                  }
-
             } catch (error) {
                   console.error('Error sending phone number to backend:', error);
             }

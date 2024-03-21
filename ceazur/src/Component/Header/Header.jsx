@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutSuccess } from '../../Redux/slice/AuthSlice';
+import { logout } from '../../Redux/slice/AuthSlice';
+// import axios from 'axios';
 
 // bootstrap
 import { Navbar, Container, Form, Button, Col, Dropdown } from "react-bootstrap";
@@ -13,23 +14,16 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 function Header() {
-      const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+      const { isAuthenticated } = useSelector((state) => state.auth);
       const dispatch = useDispatch();
 
-
-      // Function to handle user logout
       const handleLogout = () => {
-            try {
-                  dispatch(logoutSuccess()); // Dispatch logout action
-
-            } catch (error) {
-                  console.log(error.message)
-            }
-
+            dispatch(logout());
       };
+
       return (
             <>
-                  <Navbar className="bg-body-tertiary">
+                  <Navbar className="bg-body-tertiary" >
                         <Container className="bg-body-tertiary">
                               <Col className="bg-body-tertiary">
                                     <Navbar.Brand href="/" className='bg-body-tertiary'>Ceazur</Navbar.Brand>
@@ -69,7 +63,7 @@ function Header() {
                                                 ) : (
                                                       <a href='/login' className='bg-body-tertiary'>Login</a>
                                                 )}
-                                                <a href="/wishlist"><FavoriteIcon /></a>
+                                                <a href="/wishlist" ><FavoriteIcon /></a>
                                                 <a href='/cart'><ShoppingCartIcon /></a>
 
                                           </div>

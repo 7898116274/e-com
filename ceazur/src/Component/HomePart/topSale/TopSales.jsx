@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
 import AliceCarousel from 'react-alice-carousel';
-import HomeCard from './Homecard';
+import HomeCard from '../HomeArrival/Homecard';
 import { Button } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
-const Homearrival = () => {
-      const [activeIndex, setActiveIndex] = useState(0)
+const TopSales = () => {
+      const [activeIndex, setActiveIndex] = useState(0);
 
       const responsive = {
             0: { items: 1 },
             400: { items: 2 },
             720: { items: 3 },
-            960: { items: 4 },
+            960: { items: 3 },
             1024: { items: 4 },
       };
 
       const slidePrev = () => setActiveIndex(activeIndex - 1);
-      const slideNext = () => setActiveIndex(activeIndex + 1)
+      const slideNext = () => setActiveIndex(activeIndex + 1);
 
-      const syncActiveIndex = ({ item }) => setActiveIndex(item)
+      const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
-
-
-      const items = Array(8).fill().map((_, index) => <HomeCard key={index} />);
+      const items = Array(10).fill().map((_, index) => <HomeCard key={index} />);
 
       return (
             <div className='px-4'>
                   <div className="text-center">
-                        <h2 className="text-black" style={{ "font-weight": "700", "fontFamily": "Sans-serif" }}>New Arrivals</h2>
+                        <h2 className="text-black" style={{ "fontWeight": "700", "fontFamily": "Sans-serif" }}>Top IN TREND</h2>
                   </div>
 
                   <div className='p-5 d-flex justify-content-center align-items-center position-relative'>
@@ -47,8 +45,9 @@ const Homearrival = () => {
                               responsive={responsive}
                               onSlideChanged={syncActiveIndex}
                               activeIndex={activeIndex}
+                              style={{ height: "20px" }}
                         />
-                        {activeIndex !== items.lenth - 5 && <Button
+                        <Button
                               variant='contained'
                               className='bg-white position-absolute end-0 translate-middle-y'
                               sx={{ zIndex: 1, transform: 'translate(50%, -50%) rotate(90deg)', bgcolor: 'white' }}
@@ -56,10 +55,10 @@ const Homearrival = () => {
                               onClick={slideNext}
                         >
                               <KeyboardArrowLeftIcon sx={{ color: 'black' }} />
-                        </Button>}
+                        </Button>
                   </div>
             </div>
       );
 }
 
-export default Homearrival;
+export default TopSales;

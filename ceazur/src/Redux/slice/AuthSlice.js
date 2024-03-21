@@ -1,9 +1,28 @@
 // AuthSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+
+export const logincomplete = createAsyncThunk("auth/logincomplete", async (agr, { rejectWithValue }) => {
+      try {
+            const response = await axios.get("http://localhost:5000/api/user/verify");
+            const result = await response.data; // Use response.data directly
+            console.log(result);
+            return result; // Return the data from the API call
+      } catch (error) {
+            console.log("No data recover")
+            return rejectWithValue(error.message);
+            // Return error message if API call fails
+      }
+});
 
 const initialState = {
-      token: null,
+      userContact: null,
       isAuthenticated: false,
+      loading: false,
+      error: null,
 };
 
 const authSlice = createSlice({
@@ -11,58 +30,34 @@ const authSlice = createSlice({
       initialState,
       reducers: {
             loginSuccess(state, action) {
-                  state.token = action.payload.token;
+                  state.userContact = action.payload.userContact;
                   state.isAuthenticated = true;
             },
-            logoutSuccess(state) {
-                  state.token = null;
+            logout(state) {
+                  state.userContact = null;
                   state.isAuthenticated = false;
             },
       },
+      extraReducers: (builder) => {
+            builder
+                  .addCase(logincomplete.pending, (state) => {
+                        state.loading = true;
+                        state.error = null; // Clear any previous errors
+                  })
+                  .addCase(logincomplete.fulfilled, (state, action) => {
+                        state.loading = false;
+                        state.userContact = action.payload;
+                  })
+                  .addCase(logincomplete.rejected, (state, action) => {
+                        state.loading = false;
+                        state.error = action.payload;
+                  });
+      },
 });
 
-export const { loginSuccess, logoutSuccess } = authSlice.actions;
+export const { loginSuccess, logout } = authSlice.actions;
 
 export default authSlice.reducer;
 
 
 
-
-
-// import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import axios from 'axios';
-
-// const initialState = {
-//       token: null,
-//       userContact: null,
-// };
-
-// const AuthSlice = createSlice({
-//       name: 'auth',
-//       initialState,
-//       reducers: {
-
-//             loginSuccess: (state, action) => {
-//                   state.token = action.payload;
-//             },
-//             logout: (state) => {
-//                   state.token = null;
-//             },
-//       },
-// });
-
-// export const { loginSuccess, logout } = AuthSlice.actions;
-
-// // export const selectToken = (state) => state.auth.token;
-
-// export default AuthSlice.reducer;
-
-
-// export const logincomplete = createAsyncThunk("loginuser/post", async (token) => {
-//       try {
-//             const request = await axios.post("http://localhost:5000/api/user/verify", token);
-//             return request
-//       } catch (error) {
-//             throw new Error("No token found")
-//       }
-// })

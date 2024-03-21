@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import AliceCarousel from 'react-alice-carousel';
-import HomeCard from './Homecard';
+import HomeCard from '../HomeArrival/Homecard';
 import { Button } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
-const Homearrival = () => {
+
+const LatestCollection = () => {
       const [activeIndex, setActiveIndex] = useState(0)
 
       const responsive = {
@@ -27,7 +28,7 @@ const Homearrival = () => {
       return (
             <div className='px-4'>
                   <div className="text-center">
-                        <h2 className="text-black" style={{ "font-weight": "700", "fontFamily": "Sans-serif" }}>New Arrivals</h2>
+                        <h2 className="text-black" style={{ "font-weight": "700", "fontFamily": "Sans-serif" }}>Latest Collection</h2>
                   </div>
 
                   <div className='p-5 d-flex justify-content-center align-items-center position-relative'>
@@ -59,7 +60,7 @@ const Homearrival = () => {
                         </Button>}
                   </div>
             </div>
-      );
+      )
 }
 
-export default Homearrival;
+export default LatestCollection
